@@ -28,21 +28,6 @@ export default function Navbar({
 
   return (
     <header className="bg-navy-900 border-b border-navy-700 sticky top-0 z-[2000]">
-      {/* Top Banner if SOS or Alert */}
-      {hasActiveSOS && (
-        <div className="bg-red-600 text-white font-bold px-4 py-2 flex items-center justify-between text-sm sm:text-base animate-pulse">
-          <div className="flex items-center gap-2">
-            <AlertTriangle className="w-5 h-5 animate-bounce" />
-            <span>CRITICAL ALERT: Vessel in SOS Zone (&le; 1.0 NM from IMBL)! Continuous Siren Activated.</span>
-          </div>
-          <button
-            onClick={onStopAlarm}
-            className="bg-white text-red-700 px-3 py-1 rounded-md text-xs font-black hover:bg-red-100 transition shadow"
-          >
-            STOP ALARM
-          </button>
-        </div>
-      )}
 
       {hasActiveAlert && !hasActiveSOS && (
         <div className="bg-amber-600 text-white font-semibold px-4 py-1.5 flex items-center justify-between text-xs sm:text-sm">
