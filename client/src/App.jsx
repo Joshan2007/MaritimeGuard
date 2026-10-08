@@ -40,8 +40,8 @@ export default function App() {
   // Audio & Alarm state
   const [isAlertBeeping, setIsAlertBeeping] = useState(false);
   const [isSosSirening, setIsSosSirening] = useState(false);
-  const [isAlarmSilenced, setIsAlarmSilenced] = useState(false);
   const [isAlertAcknowledged, setIsAlertAcknowledged] = useState(false);
+  const [isSosSilenced, setIsSosSilenced] = useState(false);
   const [dismissedSosBoatId, setDismissedSosBoatId] = useState(null);
 
   // Check if any boat is currently in Alert or SOS status
@@ -63,12 +63,26 @@ export default function App() {
     showToast('Web Audio API initialized! Emergency sirens ready.');
   };
 
+  // Auto-unlock audio context on first user interaction anywhere
+  useEffect(() => {
+    const unlockOnGesture = () => {
+      soundManager.init();
+      setIsSoundUnlocked(true);
+    };
+    window.addEventListener('pointerdown', unlockOnGesture, { once: true });
+    window.addEventListener('keydown', unlockOnGesture, { once: true });
+    return () => {
+      window.removeEventListener('pointerdown', unlockOnGesture);
+      window.removeEventListener('keydown', unlockOnGesture);
+    };
+  }, []);
+
   // Stop All Alarms & Dismiss Alerts
   const handleStopAlarm = () => {
     soundManager.stopAll();
     setIsAlertBeeping(false);
     setIsSosSirening(false);
-    setIsAlarmSilenced(true);
+    setIsSosSilenced(true);
     setIsAlertAcknowledged(true);
     const activeSos = boats.find(b => b.status === 'SOS');
     if (activeSos) {
@@ -83,14 +97,16 @@ export default function App() {
     if (!isSoundUnlocked) return;
 
     if (hasActiveSOS) {
-      if (!isSosSirening && !isAlarmSilenced) {
+      // Level 2 Critical SOS (1 NM Line)
+      if (!isSosSirening && !isSosSilenced) {
         soundManager.stopBeep();
         soundManager.startSiren();
         setIsSosSirening(true);
         setIsAlertBeeping(false);
       }
     } else if (hasActiveAlert) {
-      if (!isAlertBeeping && !isAlarmSilenced && !isAlertAcknowledged) {
+      // Level 1 Warning (5 NM Line)
+      if (!isAlertBeeping && !isAlertAcknowledged) {
         soundManager.stopSiren();
         soundManager.startBeep();
         setIsAlertBeeping(true);
@@ -100,11 +116,11 @@ export default function App() {
       soundManager.stopAll();
       setIsAlertBeeping(false);
       setIsSosSirening(false);
-      setIsAlarmSilenced(false);
       setIsAlertAcknowledged(false);
+      setIsSosSilenced(false);
       setDismissedSosBoatId(null);
     }
-  }, [hasActiveSOS, hasActiveAlert, isSoundUnlocked, isAlarmSilenced, isAlertAcknowledged, isSosSirening, isAlertBeeping]);
+  }, [hasActiveSOS, hasActiveAlert, isSoundUnlocked, isAlertAcknowledged, isSosSilenced, isSosSirening, isAlertBeeping]);
 
   // If a boat enters SOS, pop up SOS modal if not already dismissed
   useEffect(() => {
@@ -214,8 +230,9 @@ export default function App() {
   // API Action Handlers
   const handleStartDemo = async () => {
     setIsAlertAcknowledged(false);
-    setIsAlarmSilenced(false);
+    setIsSosSilenced(false);
     setDismissedSosBoatId(null);
+    setSosModalBoat(null);
     await fetch(`${API_BASE}/demo/start`, { method: 'POST' });
     showToast('Demo started: Vessels deployed in safe fishing zone.');
   };
@@ -223,8 +240,9 @@ export default function App() {
   const handleResetDemo = async () => {
     handleStopAlarm();
     setIsAlertAcknowledged(false);
-    setIsAlarmSilenced(false);
+    setIsSosSilenced(false);
     setDismissedSosBoatId(null);
+    setSosModalBoat(null);
     await fetch(`${API_BASE}/demo/reset`, { method: 'POST' });
     const bRes = await fetch(`${API_BASE}/boats`).then(r => r.json());
     setBoats(bRes);
@@ -266,16 +284,18 @@ export default function App() {
 
   const handleDriftBoat = async (boatId) => {
     setIsAlertAcknowledged(false);
-    setIsAlarmSilenced(false);
+    setIsSosSilenced(false);
     setDismissedSosBoatId(null);
+    setSosModalBoat(null);
     await fetch(`${API_BASE}/demo/drift/${boatId}`, { method: 'POST' });
     showToast(`Drifting boat toward border. Simulation in progress.`);
   };
 
   const handleInstantSOS = async (boatId) => {
     setIsAlertAcknowledged(false);
-    setIsAlarmSilenced(false);
+    setIsSosSilenced(false);
     setDismissedSosBoatId(null);
+    setSosModalBoat(null);
     await fetch(`${API_BASE}/demo/instant-sos/${boatId}`, { method: 'POST' });
     showToast(`Instant SOS executed. Vessel jumped to 0.9 NM from IMBL.`);
   };
@@ -341,9 +361,9 @@ export default function App() {
 
   // Screen flashing class on SOS or Alert
   let screenFlashClass = '';
-  if (hasActiveSOS && !isAlarmSilenced) {
+  if (hasActiveSOS && !isSosSilenced) {
     screenFlashClass = 'flash-sos-screen';
-  } else if (hasActiveAlert && !isAlertAcknowledged && !isAlarmSilenced) {
+  } else if (hasActiveAlert && !isAlertAcknowledged) {
     screenFlashClass = 'flash-alert-screen';
   }
 

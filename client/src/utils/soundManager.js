@@ -66,36 +66,33 @@ class SoundManager {
 
   // Level 2: loud continuous two-tone siren
   startSiren() {
-    if (!this.isUnlocked) return;
+    this.init();
+    if (!this.ctx) return;
+    if (this.ctx.state === 'suspended') {
+      this.ctx.resume();
+    }
     if (this.isSirening) return;
     this.isSirening = true;
 
     try {
       this.sirenGain = this.ctx.createGain();
-      this.sirenGain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+      this.sirenGain.gain.setValueAtTime(0.4, this.ctx.currentTime);
       this.sirenGain.connect(this.ctx.destination);
 
       this.sirenOsc1 = this.ctx.createOscillator();
       this.sirenOsc1.type = 'sawtooth';
-      
-      // LFO for two-tone modulation (e.g., 600Hz to 950Hz oscillation)
-      const lfo = this.ctx.createOscillator();
-      const lfoGain = this.ctx.createGain();
 
-      lfo.frequency.setValueAtTime(2, this.ctx.currentTime); // 2 Hz cycle
-      lfoGain.gain.setValueAtTime(200, this.ctx.currentTime); // Amplitude of pitch variation
-
-      this.sirenOsc1.frequency.setValueAtTime(750, this.ctx.currentTime);
-
-      lfo.connect(lfoGain);
-      lfoGain.connect(this.sirenOsc1.frequency);
-
+      let toneHigh = false;
+      this.sirenOsc1.frequency.setValueAtTime(650, this.ctx.currentTime);
       this.sirenOsc1.connect(this.sirenGain);
-
-      lfo.start();
       this.sirenOsc1.start();
 
-      this._lfo = lfo;
+      this._sirenTimer = setInterval(() => {
+        if (!this.isSirening || !this.ctx || !this.sirenOsc1) return;
+        toneHigh = !toneHigh;
+        const targetFreq = toneHigh ? 950 : 650;
+        this.sirenOsc1.frequency.setValueAtTime(targetFreq, this.ctx.currentTime);
+      }, 400);
     } catch (e) {
       console.warn('Siren audio error:', e);
     }
@@ -103,16 +100,15 @@ class SoundManager {
 
   stopSiren() {
     this.isSirening = false;
+    if (this._sirenTimer) {
+      clearInterval(this._sirenTimer);
+      this._sirenTimer = null;
+    }
     try {
       if (this.sirenOsc1) {
         this.sirenOsc1.stop();
         this.sirenOsc1.disconnect();
         this.sirenOsc1 = null;
-      }
-      if (this._lfo) {
-        this._lfo.stop();
-        this._lfo.disconnect();
-        this._lfo = null;
       }
       if (this.sirenGain) {
         this.sirenGain.disconnect();
