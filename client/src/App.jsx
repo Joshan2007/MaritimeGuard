@@ -11,7 +11,6 @@ import LiveGpsFeed from './components/LiveGpsFeed';
 import BoatsFleetPage from './components/BoatsFleetPage';
 import AlertsHistoryPage from './components/AlertsHistoryPage';
 import MessagesLogPage from './components/MessagesLogPage';
-import FamilyView from './components/FamilyView';
 import { soundManager } from './utils/soundManager';
 import { HelpCircle, Info, Volume2, Shield } from 'lucide-react';
 
@@ -508,20 +507,6 @@ export default function App() {
             boats={boats}
             userRole={role}
           />
-        )}
-
-        {/* SPECIAL FAMILY VIEW IF FAMILY ROLE IS SELECTED */}
-        {role === 'family' && activeTab === 'map' && (
-          <div className="mt-8 pt-8 border-t border-navy-800">
-            <FamilyView
-              boats={boats}
-              messages={messages}
-              onSelectBoat={(b) => {
-                setSelectedBoat(b);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            />
-          </div>
         )}
       </main>
 

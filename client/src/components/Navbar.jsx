@@ -14,9 +14,7 @@ export default function Navbar({
   onStopAlarm
 }) {
   const roles = [
-    { id: 'admin', label: 'Admin (Union Officer)', icon: Shield },
-    { id: 'captain', label: 'Boat Captain', icon: Anchor },
-    { id: 'family', label: 'Family Member', icon: Users }
+    { id: 'admin', label: 'Admin (Union Officer)', icon: Shield }
   ];
 
   const navLinks = [
@@ -111,18 +109,12 @@ export default function Navbar({
               </span>
             )}
 
-            {/* Role Switcher */}
-            <div className="flex items-center bg-navy-950 p-1 rounded-lg border border-navy-700">
-              <span className="text-[11px] text-slate-400 px-2 hidden lg:inline">Role:</span>
-              <select
-                value={currentRole}
-                onChange={(e) => onRoleChange(e.target.value)}
-                className="bg-transparent text-xs text-teal-300 font-semibold focus:outline-none cursor-pointer py-1 px-1.5"
-              >
-                <option value="admin" className="bg-navy-900 text-slate-100">Admin (Union Officer)</option>
-                <option value="captain" className="bg-navy-900 text-slate-100">Boat Captain</option>
-                <option value="family" className="bg-navy-900 text-slate-100">Family Member</option>
-              </select>
+            {/* Role Display */}
+            <div className="flex items-center bg-navy-950 px-2.5 py-1.5 rounded-lg border border-navy-700">
+              <span className="text-[11px] text-slate-400 mr-1.5 hidden sm:inline">Role:</span>
+              <span className="text-xs text-teal-300 font-semibold flex items-center gap-1">
+                Admin (Union Officer)
+              </span>
             </div>
           </div>
         </div>
