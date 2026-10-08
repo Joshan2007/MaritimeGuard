@@ -395,7 +395,7 @@ export default function App() {
             </div>
 
             {/* Map & Live Vessel Panel Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
               {/* Interactive Map (2 cols on large screen) */}
               <div className="lg:col-span-2 space-y-4">
                 <InteractiveMap
