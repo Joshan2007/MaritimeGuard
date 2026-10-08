@@ -1,0 +1,94 @@
+@import "tailwindcss";
+@import 'leaflet/dist/leaflet.css';
+
+@theme {
+  --color-navy-950: #060d17;
+  --color-navy-900: #0b192c;
+  --color-navy-800: #152b47;
+  --color-navy-700: #1e3e62;
+  --color-navy-600: #285384;
+
+  --color-teal-300: #5eead4;
+  --color-teal-400: #2dd4bf;
+  --color-teal-500: #14b8a6;
+  --color-teal-600: #0d9488;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #060d17;
+  color: #e2e8f0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Pulsing alert and SOS animations */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.pulsing-sos-ring {
+  animation: pulse-ring 1.2s infinite ease-in-out;
+}
+
+@keyframes flash-red {
+  0%, 100% { background-color: rgba(220, 38, 38, 0.15); }
+  50% { background-color: rgba(220, 38, 38, 0.45); }
+}
+
+@keyframes flash-orange {
+  0%, 100% { background-color: rgba(234, 88, 12, 0.12); }
+  50% { background-color: rgba(234, 88, 12, 0.35); }
+}
+
+.flash-sos-screen {
+  animation: flash-red 0.8s infinite ease-in-out;
+}
+
+.flash-alert-screen {
+  animation: flash-orange 1.2s infinite ease-in-out;
+}
+
+/* Leaflet theme tweaks */
+.leaflet-container {
+  background: #aad3df !important;
+  font-family: inherit;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0b192c;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e3e62;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2dd4bf;
+}
