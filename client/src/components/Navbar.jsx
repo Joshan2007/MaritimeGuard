@@ -10,6 +10,7 @@ export default function Navbar({
   onUnlockSound,
   hasActiveAlert,
   hasActiveSOS,
+  isAlertAcknowledged,
   onStopAlarm
 }) {
   const roles = [
@@ -28,15 +29,15 @@ export default function Navbar({
   return (
     <header className="bg-navy-900 border-b border-navy-700 sticky top-0 z-[2000]">
 
-      {hasActiveAlert && !hasActiveSOS && (
-        <div className="bg-amber-600 text-white font-semibold px-4 py-1.5 flex items-center justify-between text-xs sm:text-sm">
+      {hasActiveAlert && !hasActiveSOS && !isAlertAcknowledged && (
+        <div className="bg-amber-600 text-white font-semibold px-4 py-1.5 flex items-center justify-between text-xs sm:text-sm animate-in fade-in">
           <div className="flex items-center gap-2">
             <Radio className="w-4 h-4 animate-spin" />
             <span>LEVEL 1 WARNING: Vessel crossed 5.0 NM Buffer Line. Recommended Action: Turn back to safe zone immediately.</span>
           </div>
           <button
             onClick={onStopAlarm}
-            className="bg-navy-900 text-white px-2 py-0.5 rounded text-xs hover:bg-navy-800"
+            className="bg-navy-900 text-white px-2.5 py-1 rounded text-xs font-semibold hover:bg-navy-800 transition shadow"
           >
             Acknowledge
           </button>
