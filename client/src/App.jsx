@@ -395,7 +395,7 @@ export default function App() {
             </div>
 
             {/* Map & Live Vessel Panel Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Interactive Map (2 cols on large screen) */}
               <div className="lg:col-span-2 space-y-4">
                 <InteractiveMap
@@ -430,7 +430,7 @@ export default function App() {
               </div>
 
               {/* Side Panels (1 col on large screen) */}
-              <div className="space-y-6">
+              <div className="space-y-6 flex flex-col h-full">
                 {/* Sea Conditions Live Card */}
                 <SeaConditionsCard
                   conditions={conditions}
