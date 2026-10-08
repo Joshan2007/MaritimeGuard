@@ -304,7 +304,7 @@ export default function InteractiveMap({
       </MapContainer>
 
       {/* Map Overlay Badge & Layer Switcher */}
-      <div className="absolute top-3 left-3 z-30 bg-navy-950/90 backdrop-blur border border-navy-700/80 rounded-lg p-2.5 text-xs text-slate-200 shadow-lg pointer-events-none">
+      <div className="absolute top-3 left-14 z-[1000] bg-navy-950/90 backdrop-blur border border-navy-700/80 rounded-lg p-2.5 text-xs text-slate-200 shadow-lg pointer-events-none">
         <div className="font-bold text-teal-400 flex items-center gap-1.5">
           <Compass className="w-4 h-4 text-teal-400" />
           <span>Palk Strait Marine Zone</span>
@@ -315,7 +315,7 @@ export default function InteractiveMap({
       </div>
 
       {/* Free Map Tile Selector (OpenStreetMap / Satellite / Topo) */}
-      <div className="absolute top-3 right-3 z-30 bg-white/90 backdrop-blur border border-slate-300 rounded-lg p-1 text-xs shadow-lg flex items-center gap-1 text-slate-800">
+      <div className="absolute top-3 right-3 z-[1000] bg-white/90 backdrop-blur border border-slate-300 rounded-lg p-1 text-xs shadow-lg flex items-center gap-1 text-slate-800">
         <button
           onClick={() => setMapLayer('osm')}
           className={`px-2.5 py-1 rounded font-bold text-[11px] transition ${
