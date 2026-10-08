@@ -1,4 +1,4 @@
-# 🛡️ MaritimeGuard (மாறிட்டிமாகார்ட்)
+# 🛡️ MaritimeGuard 
 **Intelligent Maritime Border Safety, Life-Saving Geo-Fence & Telemetry Platform for Tamil Nadu Fishermen**
 
 [![Status](https://img.shields.io/badge/Status-Hackathon_Prototype-teal.svg)](#)
@@ -6,8 +6,6 @@
 [![Maps](https://img.shields.io/badge/Maps-Leaflet_•_OpenStreetMap_•_Esri-emerald.svg)](#)
 [![Audio](https://img.shields.io/badge/Audio-Web_Audio_API-orange.svg)](#)
 [![SMS](https://img.shields.io/badge/Gateway-Twilio_•_WhatsApp_•_Fallback_SMS-red.svg)](#)
-
-> **⚠️ Disclaimer**: *Hackathon Prototype. Running in demo mode with simulated GPS telemetry. Not certified for actual at-sea navigation.*
 
 ---
 
