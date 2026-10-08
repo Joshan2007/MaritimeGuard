@@ -189,12 +189,12 @@ app.post('/api/demo/reset', (req, res) => {
 
 // Demo Control: Simulation Speed & Pause
 app.post('/api/demo/speed', (req, res) => {
-  const { speed } = req.body; // 1, 5, 10
-  if ([1, 5, 10].includes(Number(speed))) {
+  const { speed } = req.body; // 1, 5, 10, 15
+  if ([1, 5, 10, 15].includes(Number(speed))) {
     setSimulationSpeed(Number(speed));
     res.json({ success: true, speed: Number(speed) });
   } else {
-    res.status(400).json({ error: 'Speed must be 1, 5, or 10' });
+    res.status(400).json({ error: 'Speed must be 1, 5, 10, or 15' });
   }
 });
 

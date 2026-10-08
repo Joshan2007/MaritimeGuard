@@ -109,7 +109,7 @@ export default function AdminDemoPanel({
         <div>
           <span className="text-slate-400 block mb-2 font-semibold">Simulation Speed Multiplier:</span>
           <div className="flex items-center gap-2">
-            {[1, 5, 10].map((s) => (
+            {[1, 5, 10, 15].map((s) => (
               <button
                 key={s}
                 onClick={() => onSetSpeed(s)}
