@@ -11,8 +11,8 @@ export default function BoatListPanel({
   userRole
 }) {
   return (
-    <div className="bg-navy-900 border border-navy-700 rounded-xl p-4 shadow-xl flex-1 flex flex-col min-h-0 text-slate-100">
-      <div className="flex items-center justify-between border-b border-navy-800 pb-3 mb-3">
+    <div className="bg-navy-900 border border-navy-700 rounded-xl p-4 shadow-xl flex flex-col lg:h-[636px] overflow-hidden text-slate-100">
+      <div className="flex items-center justify-between border-b border-navy-800 pb-3 mb-3 flex-shrink-0">
         <div className="flex items-center gap-2">
           <Anchor className="w-5 h-5 text-teal-400" />
           <h3 className="font-semibold text-base text-white">Vessels Active ({boats.length})</h3>
@@ -20,7 +20,7 @@ export default function BoatListPanel({
         <span className="text-xs text-slate-400">Live Telemetry</span>
       </div>
 
-      <div className="space-y-3 overflow-y-auto flex-1 min-h-[300px] pr-1">
+      <div className="space-y-3 overflow-y-auto flex-1 pr-1">
         {boats.map((boat) => {
           const isSelected = selectedBoat?.id === boat.id;
           const dist = boat.distance_to_imbl ?? 10.0;
