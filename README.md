@@ -1,4 +1,4 @@
-# MaritimaGuard (மாறிட்டிமாகார்ட்)
+# MaritimeGuard (மாறிட்டிமாகார்ட்)
 **Maritime Border Safety & Life-Saving Geo-Fence Platform for Tamil Nadu Fishermen**
 
 > *Hackathon Prototype. Simulated GPS. Not for real navigation.*
@@ -6,7 +6,7 @@
 ---
 
 ## 🌊 Overview
-MaritimaGuard protects Indian fishermen in the **Palk Strait & Gulf of Mannar** (Rameswaram, Pamban, Mandapam, Thangachimadam) against accidental drift across the **International Maritime Boundary Line (IMBL)** into Sri Lankan territorial waters.
+MaritimeGuard protects Indian fishermen in the **Palk Strait & Gulf of Mannar** (Rameswaram, Pamban, Mandapam, Thangachimadam) against accidental drift across the **International Maritime Boundary Line (IMBL)** into Sri Lankan territorial waters.
 
 ### 🌟 Key Highlights
 1. **Interactive Cartographic Map (Leaflet with Multi-Layer Tile Switcher)**:

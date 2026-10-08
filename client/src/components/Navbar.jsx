@@ -22,8 +22,7 @@ export default function Navbar({
     { id: 'map', label: 'Live Map', badge: hasActiveSOS ? 'SOS' : (hasActiveAlert ? 'ALERT' : null) },
     { id: 'boats', label: 'Boats Fleet' },
     { id: 'alerts', label: 'Alerts History' },
-    { id: 'messages', label: 'Messages Log' },
-    { id: 'about', label: 'Overview' }
+    { id: 'messages', label: 'Messages Log' }
   ];
 
   return (
@@ -53,7 +52,7 @@ export default function Navbar({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xl font-bold tracking-tight text-white">MaritimaGuard</span>
+                <span className="text-xl font-bold tracking-tight text-white">MaritimeGuard</span>
                 <span className="text-xs bg-teal-500/20 text-teal-300 border border-teal-500/30 px-2 py-0.5 rounded-full font-medium">
                   DEMO MODE
                 </span>

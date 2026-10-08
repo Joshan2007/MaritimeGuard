@@ -12,7 +12,6 @@ import BoatsFleetPage from './components/BoatsFleetPage';
 import AlertsHistoryPage from './components/AlertsHistoryPage';
 import MessagesLogPage from './components/MessagesLogPage';
 import FamilyView from './components/FamilyView';
-import OverviewPage from './components/OverviewPage';
 import { soundManager } from './utils/soundManager';
 import { HelpCircle, Info, Volume2, Shield } from 'lucide-react';
 
@@ -496,20 +495,6 @@ export default function App() {
             messages={messages}
             boats={boats}
             userRole={role}
-          />
-        )}
-
-        {/* TAB 5: OVERVIEW / ABOUT */}
-        {activeTab === 'about' && (
-          <OverviewPage
-            boatsCount={boats.length}
-            alertsCount={alerts.length}
-            messagesCount={messages.length}
-            onOpenMap={() => setActiveTab('map')}
-            onOpenAdmin={() => {
-              setRole('admin');
-              setActiveTab('map');
-            }}
           />
         )}
 

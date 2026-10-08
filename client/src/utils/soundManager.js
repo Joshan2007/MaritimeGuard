@@ -1,4 +1,4 @@
-// Web Audio API Sound Manager for MaritimaGuard
+// Web Audio API Sound Manager for MaritimeGuard
 // Manages Level 1 Beep and Level 2 Siren with user interaction unlocking
 
 class SoundManager {
