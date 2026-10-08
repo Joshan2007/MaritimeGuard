@@ -42,6 +42,8 @@ export default function App() {
   // Audio & Alarm state
   const [isAlertBeeping, setIsAlertBeeping] = useState(false);
   const [isSosSirening, setIsSosSirening] = useState(false);
+  const [isAlarmSilenced, setIsAlarmSilenced] = useState(false);
+  const [dismissedSosBoatId, setDismissedSosBoatId] = useState(null);
 
   // Check if any boat is currently in Alert or SOS status
   const hasActiveAlert = boats.some(b => b.status === 'Alert');
@@ -62,11 +64,17 @@ export default function App() {
     showToast('Web Audio API initialized! Emergency sirens ready.');
   };
 
-  // Stop All Alarms
+  // Stop All Alarms & Dismiss SOS Modal
   const handleStopAlarm = () => {
     soundManager.stopAll();
     setIsAlertBeeping(false);
     setIsSosSirening(false);
+    setIsAlarmSilenced(true);
+    const activeSos = boats.find(b => b.status === 'SOS');
+    if (activeSos) {
+      setDismissedSosBoatId(activeSos.id);
+    }
+    setSosModalBoat(null);
     showToast('Alarm acknowledged and silenced.');
   };
 
@@ -75,14 +83,14 @@ export default function App() {
     if (!isSoundUnlocked) return;
 
     if (hasActiveSOS) {
-      if (!isSosSirening) {
+      if (!isSosSirening && !isAlarmSilenced) {
         soundManager.stopBeep();
         soundManager.startSiren();
         setIsSosSirening(true);
         setIsAlertBeeping(false);
       }
     } else if (hasActiveAlert) {
-      if (!isAlertBeeping) {
+      if (!isAlertBeeping && !isAlarmSilenced) {
         soundManager.stopSiren();
         soundManager.startBeep();
         setIsAlertBeeping(true);
@@ -92,18 +100,21 @@ export default function App() {
       soundManager.stopAll();
       setIsAlertBeeping(false);
       setIsSosSirening(false);
+      setIsAlarmSilenced(false);
+      setDismissedSosBoatId(null);
     }
-  }, [hasActiveSOS, hasActiveAlert, isSoundUnlocked]);
+  }, [hasActiveSOS, hasActiveAlert, isSoundUnlocked, isAlarmSilenced, isSosSirening, isAlertBeeping]);
 
-  // If a boat enters SOS, pop up SOS modal if not already open
+  // If a boat enters SOS, pop up SOS modal if not already dismissed
   useEffect(() => {
     const sosBoat = boats.find(b => b.status === 'SOS');
-    if (sosBoat) {
+    if (sosBoat && sosBoat.id !== dismissedSosBoatId) {
       setSosModalBoat(sosBoat);
-    } else {
+    } else if (!sosBoat) {
       setSosModalBoat(null);
+      setDismissedSosBoatId(null);
     }
-  }, [boats]);
+  }, [boats, dismissedSosBoatId]);
 
   // Initial Fetch & WebSocket setup
   useEffect(() => {
@@ -247,11 +258,15 @@ export default function App() {
   };
 
   const handleDriftBoat = async (boatId) => {
+    setIsAlarmSilenced(false);
+    setDismissedSosBoatId(null);
     await fetch(`${API_BASE}/demo/drift/${boatId}`, { method: 'POST' });
     showToast(`Drifting boat toward border. Simulation in progress.`);
   };
 
   const handleInstantSOS = async (boatId) => {
+    setIsAlarmSilenced(false);
+    setDismissedSosBoatId(null);
     await fetch(`${API_BASE}/demo/instant-sos/${boatId}`, { method: 'POST' });
     showToast(`Instant SOS executed. Vessel jumped to 0.9 NM from IMBL.`);
   };
@@ -531,9 +546,10 @@ export default function App() {
         <SOSModal
           boat={sosModalBoat}
           onStopAlarm={handleStopAlarm}
+          onClose={handleStopAlarm}
           onViewOnMap={(b) => {
+            handleStopAlarm();
             setSelectedBoat(b);
-            setSosModalBoat(null);
             setActiveTab('map');
           }}
           messages={messages}

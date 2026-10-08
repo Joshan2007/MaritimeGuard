@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { AlertTriangle, VolumeX, MapPin, Send, Copy, Check, MessageSquare, PhoneCall } from 'lucide-react';
+import { AlertTriangle, VolumeX, MapPin, Send, Copy, Check, MessageSquare, PhoneCall, X } from 'lucide-react';
 
 export default function SOSModal({
   boat,
   onStopAlarm,
   onViewOnMap,
+  onClose,
   messages
 }) {
   if (!boat) return null;
@@ -46,6 +47,13 @@ export default function SOSModal({
               <p className="text-xs text-red-100">Distance to IMBL: {boat.distance_to_imbl} NM (Within 1.0 NM Boundary Line)</p>
             </div>
           </div>
+          <button
+            onClick={onClose || onStopAlarm}
+            className="p-1.5 rounded-lg bg-red-700 hover:bg-red-800 text-white transition ml-2"
+            title="Dismiss Alert"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         <div className="p-6 space-y-5 max-h-[80vh] overflow-y-auto">
